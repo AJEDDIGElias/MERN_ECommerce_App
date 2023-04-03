@@ -4,7 +4,7 @@ import { BsGithub } from 'react-icons/bs';
 
 const Policy = () => {
   return (
-    <Layout title={"Contact us"}>
+    <Layout title={"Privacy Policy - Ecommerce App"}>
       <div className="row contactus ">
         <div className="col-md-6 ">
           <img

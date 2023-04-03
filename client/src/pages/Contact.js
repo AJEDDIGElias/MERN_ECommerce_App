@@ -6,7 +6,7 @@ import Layout from './../components/layout/Layout';
 
 const Contact = () => {
   return (
-    <Layout title={"Contact us"}>
+    <Layout title={"Contact Us - Ecommerce App"}>
       <div className="row contactus ">
         <div className="col-md-6 ">
           <img
