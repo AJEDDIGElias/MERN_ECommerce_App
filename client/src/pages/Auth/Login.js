@@ -4,10 +4,12 @@ import toast from 'react-hot-toast';
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import "../../styles/AuthStyles.css";
+import { useAuth } from '../../context/auth.js';
 
 const Login = () => {
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
+    const [auth, setAuth] = useAuth();
     const navigate = useNavigate();
 
     // Form Function Test Data 
@@ -23,8 +25,13 @@ const Login = () => {
             const res = await axios.post(`/api/v1/auth/login`, {email, password});
             if(res && res.data.success){
                 //Pop up Success
-                console.log(res.data.message);
-                toast.success(res.data.message);
+                toast.success(res.data && res.data.message);
+                setAuth({
+                    ...auth,
+                    user:res.data.user,
+                    token:res.data.token,
+                });
+                localStorage.setItem('auth', JSON.stringify(res.data));
                 navigate('/');
             }else {
                 toast.success(res.data.message);

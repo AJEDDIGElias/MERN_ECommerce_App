@@ -5,8 +5,6 @@ import Contact from './pages/Contact.js';
 import Policy from './pages/Policy.js';
 import PageNotFound from './pages/PageNotFound.js';
 import Register from './pages/Auth/Register.js';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import Login from './pages/Auth/Login.js';
 
 function App() {
