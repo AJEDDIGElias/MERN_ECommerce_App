@@ -19,6 +19,7 @@ import Orders from './pages/User/Orders.js';
 import Product from './pages/Admin/Product.js';
 import UpdateProduct from './pages/Admin/UpdateProduct.js';
 import Search from './pages/Search.js';
+import ProductDetails from './pages/ProductDetails.js';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
     <Routes>
       <Route path='/' element={<HomePage></HomePage>} ></Route>
       <Route path='/search' element={<Search></Search>} ></Route>
+      <Route path='/product/:slug' element={<ProductDetails></ProductDetails>} ></Route>
       <Route path='/register' element={<Register></Register>} ></Route>
       <Route path='/login' element={<Login></Login>} ></Route>
       <Route path='/forgot-password' element={<ForgotPassword></ForgotPassword>} ></Route>
