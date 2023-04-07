@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Checkbox, Radio } from "antd";
-import { Price } from "../components/Price";
+import { Price } from "../components/Price.js";
 import axios from "axios";
-import toast from "react-hot-toast";
 import Layout from "../components/layout/Layout";
 import { AiOutlineReload } from "react-icons/ai";
 import "../styles/HomePage.css"
 
 const HomePage = () => {
   const navigate = useNavigate();
-  //const [cart, setCart] = useCart();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [checked, setChecked] = useState([]);
@@ -115,7 +113,7 @@ const HomePage = () => {
   
   return (
     <Layout title={"All Products - Ecommerce App "}>
-      <img src="/images/banner.png" className="banner-img" alt="bannerimage" width={"100%"} />
+      {/*<img src="/images/banner.png" className="banner-img" alt="bannerimage" width={"100%"} />*/}
       <div className="container-fluid row mt-3 home-page">
         <div className="col-md-3 filters">
           <h4 className="text-center">Filter By Category</h4>
