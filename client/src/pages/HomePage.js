@@ -5,7 +5,9 @@ import { Price } from "../components/Price.js";
 import axios from "axios";
 import Layout from "../components/layout/Layout";
 import { AiOutlineReload } from "react-icons/ai";
+import { useCart } from "../context/cart.js";
 import "../styles/HomePage.css"
+import { toast } from "react-hot-toast";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -16,6 +18,7 @@ const HomePage = () => {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [cart, setCart]= useCart();
 
   //Get All Category
   const getAllCategory = async () => {
@@ -170,7 +173,11 @@ const HomePage = () => {
                     <button className="btn btn-info ms-1" onClick={() => navigate(`/product/${p.slug}`)}>
                       More Details
                     </button>
-                    <button className="btn btn-dark ms-1">
+                    <button className="btn btn-dark ms-1" 
+                    onClick={() => {
+                      setCart([...cart,p]);
+                      toast.success('Item added to cart !');
+                    }}>
                       ADD TO CART
                     </button>
                   </div>
