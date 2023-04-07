@@ -20,6 +20,8 @@ import Product from './pages/Admin/Product.js';
 import UpdateProduct from './pages/Admin/UpdateProduct.js';
 import Search from './pages/Search.js';
 import ProductDetails from './pages/ProductDetails.js';
+import Categories from './pages/Categories.js';
+import CategoryProduct from './pages/CategoryProduct.js';
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
       <Route path='/' element={<HomePage></HomePage>} ></Route>
       <Route path='/search' element={<Search></Search>} ></Route>
       <Route path='/product/:slug' element={<ProductDetails></ProductDetails>} ></Route>
+      <Route path='/categories' element={<Categories></Categories>} ></Route>
+      <Route path='/category/:slug' element={<CategoryProduct></CategoryProduct>} ></Route>
       <Route path='/register' element={<Register></Register>} ></Route>
       <Route path='/login' element={<Login></Login>} ></Route>
       <Route path='/forgot-password' element={<ForgotPassword></ForgotPassword>} ></Route>
