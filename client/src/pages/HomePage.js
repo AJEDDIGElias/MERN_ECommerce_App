@@ -176,6 +176,7 @@ const HomePage = () => {
                     <button className="btn btn-dark ms-1" 
                     onClick={() => {
                       setCart([...cart,p]);
+                      localStorage.setItem('cart', JSON.stringify([...cart, p]))
                       toast.success('Item added to cart !');
                     }}>
                       ADD TO CART
