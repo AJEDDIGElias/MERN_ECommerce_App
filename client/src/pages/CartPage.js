@@ -3,7 +3,8 @@ import Layout from "./../components/layout/Layout";
 import { useCart } from "../context/cart";
 import { useAuth } from "../context/auth";
 import { useNavigate } from "react-router-dom";
-import { AiFillWarning } from "react-icons/ai";
+
+import DropIn from "braintree-web-drop-in-react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import "../styles/CartStyles.css";
@@ -11,9 +12,9 @@ import "../styles/CartStyles.css";
 const CartPage = () => {
   const [auth, setAuth] = useAuth();
   const [cart, setCart] = useCart();
+  const [loading, setLoading] = useState(false);
   const [clientToken, setClientToken] = useState("");
   const [instance, setInstance] = useState("");
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   //total price
@@ -31,7 +32,8 @@ const CartPage = () => {
       console.log(error);
     }
   };
-  //detele item
+
+  //delete item
   const removeCartItem = (pid) => {
     try {
       let myCart = [...cart];
@@ -41,6 +43,39 @@ const CartPage = () => {
       localStorage.setItem("cart", JSON.stringify(myCart));
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  //Get Payment Gateway Token
+  const getToken = async () => {
+    try {
+      const { data } = await axios.get("/api/v1/product/braintree/token");
+      setClientToken(data?.clientToken);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getToken();
+  }, [auth?.token]);
+
+  //handle payments
+  const handlePayment = async () => {
+    try {
+      setLoading(true);
+      const { nonce } = await instance.requestPaymentMethod();
+      const { data } = await axios.post("/api/v1/product/braintree/payment", {
+        nonce,
+        cart,
+      });
+      setLoading(false);
+      localStorage.removeItem("cart");
+      setCart([]);
+      navigate("/dashboard/user/orders");
+      toast.success("Payment Completed Successfully ");
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
     }
   };
 
@@ -135,27 +170,30 @@ const CartPage = () => {
                 </div>
               )}
               <div className="mt-2">
-                {!clientToken || !auth?.token || !cart?.length ? (
-                  ""
-                ) : (
-                  <>
-                    {/**<DropIn
-                      options={{
-                        authorization: clientToken,
-                        paypal: {
-                          flow: "vault",
-                        },
-                      }}
-                      onInstance={(instance) => setInstance(instance)}
-                    />*/}
+                {
+                  !clientToken || !cart?.length ? (
+                    ""
+                    ):(
+                      <>
+                        <DropIn
+                        options={{
+                          authorization: clientToken,
+                          paypal: {
+                            flow: "vault",
+                          },
+                        }}
+                        onInstance={(instance) => setInstance(instance)}
+                      />
 
-                    <button
-                      className="btn btn-primary"
-                    >
-                      {loading ? "Processing ...." : "Make Payment"}
-                    </button>
-                  </>
-                )}
+                      <button
+                        className="btn btn-primary"
+                        onClick={handlePayment}
+                      disabled={loading || !instance || !auth?.user?.address}>
+                        {loading ? "Processing ...." : "Make Payment"}
+                      </button>
+                      </>
+                    )
+                }
               </div>
             </div>
           </div>
